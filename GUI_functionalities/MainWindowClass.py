@@ -1,11 +1,12 @@
 from PySide6 import QtWidgets
 from GUI import GeneratedQuizWindow2
-from GUI_functionalities.File_managing_functions import read_highest_score
-import os
+from GUI_functionalities.File_managing_functions import read_highest_score, high_score_file_path
 
 class QuizMainWindow(QtWidgets.QMainWindow):
     def __init__(self):
         super(QuizMainWindow, self).__init__()
+
+
 
         # Inicjalizacja obiektu UI z pliku Pythona
         self.ui = GeneratedQuizWindow2.Ui_MainWindow()
@@ -13,7 +14,7 @@ class QuizMainWindow(QtWidgets.QMainWindow):
 
         self.load_high_scores()
 
-        #disable adding question part
+        # Disable adding question part
         self.ui.question_add.setDisabled(True)
         self.ui.answer_a_add.setDisabled(True)
         self.ui.answer_b_add.setDisabled(True)
@@ -34,9 +35,8 @@ class QuizMainWindow(QtWidgets.QMainWindow):
         self.ui.answer_d.setText("D")
 
     def load_high_scores(self):
-        file_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "Data_files", "high_scores"))
         hs_text = "High score: "
-        hs_text += read_highest_score(file_path)
+        hs_text += read_highest_score(high_score_file_path)
         self.ui.high_score.setText(hs_text)
 
 

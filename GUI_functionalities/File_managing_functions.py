@@ -1,3 +1,10 @@
+import os
+
+
+high_score_file_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "Data_files", "high_scores"))
+questions_file_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "Data_files", "questions"))
+
+
 def read_highest_score(file_name):
     highest_score = 0
     line_with_highest_score = ""
