@@ -1,6 +1,4 @@
-import time
-
-from GUI.MainWindowClass import QuizMainWindow
+from GUI_functionalities.MainWindowClass import QuizMainWindow
 from PySide6 import QtWidgets
 import sys
 
