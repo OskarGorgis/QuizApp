@@ -1,5 +1,4 @@
 from Quiz_functionalities.CooperatingWithDatabase import get_questions
-from GUI_functionalities.MainWindowClass import QuizMainWindow
 from GUI_functionalities.FileManagingFunctions import get_question_from_file
 import random
 
@@ -26,11 +25,4 @@ class QuestionBase:
         del self.questions[0]
         if len(self.questions) < 1:
             self.load_question_from_database()
-        self.shuffle_answers(question)
         return question
-
-    @staticmethod
-    def shuffle_answers(question):
-        answers = question["answers"]
-        random.shuffle(answers)
-        question["answers"] = answers
