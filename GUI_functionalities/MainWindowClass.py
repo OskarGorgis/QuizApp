@@ -1,6 +1,6 @@
 from PySide6 import QtWidgets
 from GUI import GeneratedQuizWindow2
-from GUI_functionalities.File_managing_functions import read_highest_score, high_score_file_path
+from GUI_functionalities.FileManagingFunctions import read_highest_score, high_score_file_path
 
 class QuizMainWindow(QtWidgets.QMainWindow):
     def __init__(self):
