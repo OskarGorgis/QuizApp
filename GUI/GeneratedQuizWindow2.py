@@ -99,10 +99,10 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout.addWidget(self.current_lives)
 
-        self.life_counter = QLCDNumber(self.horizontalLayoutWidget_2)
-        self.life_counter.setObjectName(u"life_counter")
+        self.live_counter = QLCDNumber(self.horizontalLayoutWidget_2)
+        self.live_counter.setObjectName(u"live_counter")
 
-        self.horizontalLayout.addWidget(self.life_counter)
+        self.horizontalLayout.addWidget(self.live_counter)
 
 
         self.horizontalLayout_2.addLayout(self.horizontalLayout)
