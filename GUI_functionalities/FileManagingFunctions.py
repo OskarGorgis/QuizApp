@@ -2,13 +2,14 @@ import os
 
 
 high_score_file_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "Data_files", "high_scores"))
-questions_file_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "Data_files", "questions"))
+questions_file_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "Data_files",
+                                                   "custom_questions.json"))
 
 
-def read_highest_score(file_name):
+def read_highest_score():
     highest_score = 0
     line_with_highest_score = ""
-    with open(file_name, 'r') as file:
+    with open(high_score_file_path, 'r') as file:
         lines = file.readlines()
         lines = [line.rstrip('\n') for line in lines]
         for line in lines:
@@ -23,3 +24,12 @@ def read_highest_score(file_name):
 def save_line_in_file(file_name, line_to_save):
     with open(file_name, 'a') as file:
         file.write(line_to_save)
+
+
+def get_question_from_file():
+    with open(questions_file_path, 'r') as file:
+        try:
+            question = file.readline()
+            return question
+        except EOFError:
+            return -1
