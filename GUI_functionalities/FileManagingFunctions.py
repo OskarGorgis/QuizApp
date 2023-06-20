@@ -21,9 +21,9 @@ def read_highest_score():
     return line_with_highest_score
 
 
-def save_line_in_file(file_name, line_to_save):
-    with open(file_name, 'a') as file:
-        file.write(line_to_save)
+def save_score_in_file(line_to_save):
+    with open(high_score_file_path, 'a') as file:
+        file.write("\n"+line_to_save)
 
 
 def get_question_from_file():

@@ -1,7 +1,7 @@
 from PySide6 import QtWidgets
 from GUI import GeneratedQuizWindow2
 from Quiz_functionalities.QuestionsBase import QuestionBase
-from GUI_functionalities.FileManagingFunctions import read_highest_score
+from GUI_functionalities.FileManagingFunctions import read_highest_score, save_score_in_file
 import random
 
 
@@ -12,6 +12,7 @@ class QuizMainWindow(QtWidgets.QMainWindow):
         self.lives = 0
         self.points = 0
         self.correct_answer_place = 0
+        self.adding_question = False
 
         # Inicjalizacja obiektu UI z pliku Pythona
         self.ui = GeneratedQuizWindow2.Ui_MainWindow()
@@ -32,6 +33,7 @@ class QuizMainWindow(QtWidgets.QMainWindow):
         self.ui.clear_screen.clicked.connect(self.load_high_scores)
         self.ui.start_quiz.clicked.connect(self.start_quiz)
         self.ui.next.clicked.connect(self.next_question)
+        self.ui.confirm_add.clicked.connect(self.confirm_name)
 
         # Wczytanie pytań do bazy
         self.question_base = QuestionBase()
@@ -104,6 +106,14 @@ class QuizMainWindow(QtWidgets.QMainWindow):
     def enter_name(self):
         self.ui.question_add.setDisabled(False)
         self.ui.confirm_add.setDisabled(False)
+
+    def confirm_name(self):
+        if self.adding_question == False:
+            text = self.ui.question_add.toPlainText().splitlines()[0]
+            text = str(self.points) + " " + text
+            save_score_in_file(text)
+            self.ui.question_add.setDisabled(True)
+            self.ui.confirm_add.setDisabled(True)
 
     def next_question(self):
         if not self.check_answer(self.correct_answer_place):
