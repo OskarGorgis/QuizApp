@@ -125,6 +125,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_3.setObjectName(u"verticalLayout_3")
         self.verticalLayout_3.setContentsMargins(0, 0, 0, 0)
         self.main_question = QLabel(self.verticalLayoutWidget_3)
+        self.main_question.setWordWrap(True)
         self.main_question.setObjectName(u"main_question")
         self.main_question.setFrameShape(QFrame.WinPanel)
         self.main_question.setAlignment(Qt.AlignCenter)
@@ -231,7 +232,7 @@ class Ui_MainWindow(object):
         self.answer_b.setText(QCoreApplication.translate("MainWindow", u"Answer B", None))
         self.answer_a.setText(QCoreApplication.translate("MainWindow", u"Answer A", None))
         self.next.setText(QCoreApplication.translate("MainWindow", u"Next", None))
-        self.exit.setText(QCoreApplication.translate("MainWindow", u"Exit", None))
+        self.exit.setText(QCoreApplication.translate("MainWindow", u"Exit quiz", None))
         self.clear_screen.setText(QCoreApplication.translate("MainWindow", u"Clear screen", None))
     # retranslateUi
 

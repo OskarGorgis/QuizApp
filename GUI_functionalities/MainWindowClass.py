@@ -28,15 +28,19 @@ class QuizMainWindow(QtWidgets.QMainWindow):
         self.ui.answer_d_add.setDisabled(True)
         self.ui.confirm_add.setDisabled(True)
         self.ui.next.setDisabled(True)
+        self.ui.exit.setDisabled(True)
 
         self.ui.clear_screen.clicked.connect(self.set_default)
         self.ui.clear_screen.clicked.connect(self.load_high_scores)
         self.ui.start_quiz.clicked.connect(self.start_quiz)
         self.ui.next.clicked.connect(self.next_question)
         self.ui.confirm_add.clicked.connect(self.confirm_name)
+        self.ui.exit.clicked.connect(self.starting_set)
 
         # Wczytanie pytań do bazy
         self.question_base = QuestionBase()
+
+        self.set_default()
 
     def set_default(self):
         self.ui.current_score.setText(f"Current score: {self.points}")
@@ -55,6 +59,7 @@ class QuizMainWindow(QtWidgets.QMainWindow):
     def shuffle_answers(self, correct_answer, incorrect_answers):
         ca_place = random.randint(1, 4)
         answers = incorrect_answers
+        print(ca_place)
         if ca_place == 4:
             answers.append(correct_answer)
         else:
@@ -89,6 +94,8 @@ class QuizMainWindow(QtWidgets.QMainWindow):
                     not self.ui.answer_c.isChecked() and self.ui.answer_d.isChecked()
 
     def start_quiz(self):
+        self.ui.clear_screen.setDisabled(True)
+        self.ui.exit.setDisabled(False)
         self.lives = 3
         self.points = 0
         self.ui.current_score.setText(f"Current score: {self.points}")
@@ -99,7 +106,8 @@ class QuizMainWindow(QtWidgets.QMainWindow):
     def end_quiz(self):
         self.set_default()
         self.ui.main_question.setText(f"You lost!\nYour score: {self.points}"
-                                      f"\nEnter your name on the left and click Confirm")
+                                      f"\nEnter your name on the right and click Confirm"
+                                      f"\n(Only first line will count)")
         self.ui.next.setDisabled(True)
         self.enter_name()
 
@@ -108,12 +116,17 @@ class QuizMainWindow(QtWidgets.QMainWindow):
         self.ui.confirm_add.setDisabled(False)
 
     def confirm_name(self):
-        if self.adding_question == False:
+        if not self.adding_question:
             text = self.ui.question_add.toPlainText().splitlines()[0]
             text = str(self.points) + " " + text
             save_score_in_file(text)
             self.ui.question_add.setDisabled(True)
+            self.ui.question_add.clear()
             self.ui.confirm_add.setDisabled(True)
+            self.load_high_scores()
+            self.set_default()
+            self.ui.clear_screen.setDisabled(False)
+            self.ui.exit.setDisabled(True)
 
     def next_question(self):
         if not self.check_answer(self.correct_answer_place):
@@ -128,6 +141,22 @@ class QuizMainWindow(QtWidgets.QMainWindow):
             self.ui.current_score.setText(f"Current score: {self.points}")
             self.ui.live_counter.display(self.lives)
             self.display_question()
+
+    def starting_set(self):
+        # variables
+        self.lives = 0
+        self.points = 0
+        self.correct_answer_place = 0
+        self.adding_question = False
+        # widgets
+        self.ui.question_add.setDisabled(True)
+        self.ui.answer_a_add.setDisabled(True)
+        self.ui.answer_b_add.setDisabled(True)
+        self.ui.answer_c_add.setDisabled(True)
+        self.ui.answer_d_add.setDisabled(True)
+        self.ui.confirm_add.setDisabled(True)
+        self.ui.next.setDisabled(True)
+        self.set_default()
 
 
 
