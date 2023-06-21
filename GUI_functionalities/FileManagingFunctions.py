@@ -41,8 +41,11 @@ def save_question_to_file(question, correct_answer, incorrect_answers):
     new_question = {"question": question,
                     "correct_answer": correct_answer,
                     "incorrect_answers": incorrect_answers}
-    with open(questions_file_path, 'r') as file:
-        questions_list = json.load(file)
+    try:
+        with open(questions_file_path, 'r') as file:
+            questions_list = json.load(file)
+    except json.JSONDecodeError:
+        questions_list = []
 
     questions_list.append(new_question)
 

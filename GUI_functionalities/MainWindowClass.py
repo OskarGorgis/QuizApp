@@ -97,13 +97,14 @@ class QuizMainWindow(QtWidgets.QMainWindow):
         self.ui.answer_b.setDisabled(False)
         self.ui.answer_c.setDisabled(False)
         self.ui.answer_d.setDisabled(False)
+        self.ui.add_question.setDisabled(True)
         self.ui.current_score.setText(f"Current score: {self.points}")
         self.ui.next.setDisabled(False)
         self.ui.live_counter.display(self.lives)
         self.display_question()
 
     def end_quiz(self):
-        self.set_default()
+        self.starting_set()
         self.ui.main_question.setText(f"You lost!\nYour score: {self.points}"
                                       f"\nEnter your name on the right and click Confirm"
                                       f"\n(Only first line will count)")
@@ -159,6 +160,7 @@ class QuizMainWindow(QtWidgets.QMainWindow):
         self.ui.answer_c.setDisabled(True)
         self.ui.answer_d.setDisabled(True)
         self.ui.exit.setDisabled(True)
+        self.ui.add_question.setDisabled(False)
         self.set_default()
 
     def add_question(self):
@@ -168,6 +170,7 @@ class QuizMainWindow(QtWidgets.QMainWindow):
         self.ui.answer_b_add.setDisabled(False)
         self.ui.answer_c_add.setDisabled(False)
         self.ui.answer_d_add.setDisabled(False)
+        self.ui.confirm_add.setDisabled(False)
 
         self.ui.answer_a.setDisabled(True)
         self.ui.answer_b.setDisabled(True)
@@ -182,14 +185,21 @@ class QuizMainWindow(QtWidgets.QMainWindow):
     def confirm_question(self):
         if self.adding_question:
             question = self.ui.question_add.toPlainText()
-            correct_answer = self.ui.answer_a_add.toPlainText()
-            incorrect_answers = [self.ui.answer_b_add.toPlainText(), self.ui.answer_c_add.toPlainText(),
-            self.ui.answer_d_add.toPlainText()]
+            correct_answer = self.ui.answer_a_add.text()
+            incorrect_answers = [self.ui.answer_b_add.text(), self.ui.answer_c_add.text(),
+            self.ui.answer_d_add.text()]
 
-            self.ui.question_add.setDisabled(False)
-            self.ui.answer_a_add.setDisabled(False)
-            self.ui.answer_b_add.setDisabled(False)
-            self.ui.answer_c_add.setDisabled(False)
-            self.ui.answer_d_add.setDisabled(False)
+            self.ui.question_add.setDisabled(True)
+            self.ui.question_add.clear()
+            self.ui.answer_a_add.setDisabled(True)
+            self.ui.answer_a_add.clear()
+            self.ui.answer_b_add.setDisabled(True)
+            self.ui.answer_b_add.clear()
+            self.ui.answer_c_add.setDisabled(True)
+            self.ui.answer_c_add.clear()
+            self.ui.answer_d_add.setDisabled(True)
+            self.ui.answer_d_add.clear()
 
             save_question_to_file(question, correct_answer, incorrect_answers)
+
+            self.ui.confirm_add.setDisabled(True)

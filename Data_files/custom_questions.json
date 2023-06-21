@@ -1,0 +1,20 @@
+[
+    {
+        "question": "Ile to 2+2?",
+        "correct_answer": "4",
+        "incorrect_answers": [
+            "3",
+            "2",
+            "1"
+        ]
+    },
+    {
+        "question": "Kto jest najlepszym bohaterem w Lidze Legend?",
+        "correct_answer": "Cho'gath",
+        "incorrect_answers": [
+            "Yummi",
+            "Sona",
+            "Sion"
+        ]
+    }
+]
