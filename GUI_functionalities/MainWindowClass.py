@@ -1,7 +1,7 @@
 from PySide6 import QtWidgets
 from GUI import GeneratedQuizWindow2
 from Quiz_functionalities.QuestionsBase import QuestionBase
-from GUI_functionalities.FileManagingFunctions import read_highest_score, save_score_in_file
+from GUI_functionalities.FileManagingFunctions import read_highest_score, save_score_in_file, save_question_to_file
 import random
 
 
@@ -18,29 +18,19 @@ class QuizMainWindow(QtWidgets.QMainWindow):
         self.ui = GeneratedQuizWindow2.Ui_MainWindow()
         self.ui.setupUi(self)
 
-        self.load_high_scores()
-
-        # Disable adding question part
-        self.ui.question_add.setDisabled(True)
-        self.ui.answer_a_add.setDisabled(True)
-        self.ui.answer_b_add.setDisabled(True)
-        self.ui.answer_c_add.setDisabled(True)
-        self.ui.answer_d_add.setDisabled(True)
-        self.ui.confirm_add.setDisabled(True)
-        self.ui.next.setDisabled(True)
-        self.ui.exit.setDisabled(True)
-
         self.ui.clear_screen.clicked.connect(self.set_default)
-        self.ui.clear_screen.clicked.connect(self.load_high_scores)
+        self.ui.clear_screen.clicked.connect(self.set_default)
         self.ui.start_quiz.clicked.connect(self.start_quiz)
         self.ui.next.clicked.connect(self.next_question)
         self.ui.confirm_add.clicked.connect(self.confirm_name)
+        self.ui.confirm_add.clicked.connect(self.confirm_question)
         self.ui.exit.clicked.connect(self.starting_set)
+        self.ui.add_question.clicked.connect(self.add_question)
 
         # Wczytanie pytań do bazy
         self.question_base = QuestionBase()
 
-        self.set_default()
+        self.starting_set()
 
     def set_default(self):
         self.ui.current_score.setText(f"Current score: {self.points}")
@@ -50,6 +40,7 @@ class QuizMainWindow(QtWidgets.QMainWindow):
         self.ui.answer_b.setText("B")
         self.ui.answer_c.setText("C")
         self.ui.answer_d.setText("D")
+        self.load_high_scores()
 
     def load_high_scores(self):
         hs_text = "High score: "
@@ -73,9 +64,13 @@ class QuizMainWindow(QtWidgets.QMainWindow):
         self.ui.main_question.setText(question["question"])
         answers, correct_answer_place = self.shuffle_answers(question["correct_answer"], question["incorrect_answers"])
         self.ui.answer_a.setText(answers[0])
+        self.ui.answer_a.setChecked(False)
         self.ui.answer_b.setText(answers[1])
+        self.ui.answer_b.setChecked(False)
         self.ui.answer_c.setText(answers[2])
+        self.ui.answer_c.setChecked(False)
         self.ui.answer_d.setText(answers[3])
+        self.ui.answer_d.setChecked(False)
         self.correct_answer_place = correct_answer_place
 
     def check_answer(self, correct_answer):
@@ -98,6 +93,10 @@ class QuizMainWindow(QtWidgets.QMainWindow):
         self.ui.exit.setDisabled(False)
         self.lives = 3
         self.points = 0
+        self.ui.answer_a.setDisabled(False)
+        self.ui.answer_b.setDisabled(False)
+        self.ui.answer_c.setDisabled(False)
+        self.ui.answer_d.setDisabled(False)
         self.ui.current_score.setText(f"Current score: {self.points}")
         self.ui.next.setDisabled(False)
         self.ui.live_counter.display(self.lives)
@@ -123,7 +122,6 @@ class QuizMainWindow(QtWidgets.QMainWindow):
             self.ui.question_add.setDisabled(True)
             self.ui.question_add.clear()
             self.ui.confirm_add.setDisabled(True)
-            self.load_high_scores()
             self.set_default()
             self.ui.clear_screen.setDisabled(False)
             self.ui.exit.setDisabled(True)
@@ -156,9 +154,42 @@ class QuizMainWindow(QtWidgets.QMainWindow):
         self.ui.answer_d_add.setDisabled(True)
         self.ui.confirm_add.setDisabled(True)
         self.ui.next.setDisabled(True)
+        self.ui.answer_a.setDisabled(True)
+        self.ui.answer_b.setDisabled(True)
+        self.ui.answer_c.setDisabled(True)
+        self.ui.answer_d.setDisabled(True)
+        self.ui.exit.setDisabled(True)
         self.set_default()
 
+    def add_question(self):
 
+        self.ui.question_add.setDisabled(False)
+        self.ui.answer_a_add.setDisabled(False)
+        self.ui.answer_b_add.setDisabled(False)
+        self.ui.answer_c_add.setDisabled(False)
+        self.ui.answer_d_add.setDisabled(False)
 
+        self.ui.answer_a.setDisabled(True)
+        self.ui.answer_b.setDisabled(True)
+        self.ui.answer_c.setDisabled(True)
+        self.ui.answer_d.setDisabled(True)
 
+        self.adding_question = True
+        self.ui.main_question.setText("Wpisz treść pytania do dużego prostokąta, a treści odpowiedzi "
+                                      "do prostokątów poniżej\nPoprawną odpowiedź umieść w lewym "
+                                      "górnym prostokącie na odpowiedzi, a następnie kliknij zatwierdź")
 
+    def confirm_question(self):
+        if self.adding_question:
+            question = self.ui.question_add.toPlainText()
+            correct_answer = self.ui.answer_a_add.toPlainText()
+            incorrect_answers = [self.ui.answer_b_add.toPlainText(), self.ui.answer_c_add.toPlainText(),
+            self.ui.answer_d_add.toPlainText()]
+
+            self.ui.question_add.setDisabled(False)
+            self.ui.answer_a_add.setDisabled(False)
+            self.ui.answer_b_add.setDisabled(False)
+            self.ui.answer_c_add.setDisabled(False)
+            self.ui.answer_d_add.setDisabled(False)
+
+            save_question_to_file(question, correct_answer, incorrect_answers)
