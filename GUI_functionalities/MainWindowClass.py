@@ -1,8 +1,8 @@
 from PySide6 import QtWidgets
-from GUI import GeneratedQuizWindow2
+from GUI import GeneratedQuizWindow
 from Quiz_functionalities.QuestionsBase import QuestionBase
 from GUI_functionalities.FileManagingFunctions import read_highest_score, save_score_in_file, save_question_to_file
-import random
+import random, sys
 
 
 class QuizMainWindow(QtWidgets.QMainWindow):
@@ -247,3 +247,11 @@ class QuizMainWindow(QtWidgets.QMainWindow):
         self.ui.answer_a.setChecked(False)
         self.ui.answer_b.setChecked(False)
         self.ui.answer_c.setChecked(False)
+
+
+def run_app():
+    app = QtWidgets.QApplication([])
+    main_window = QuizMainWindow()
+    main_window.show()
+    sys.exit(app.exec())
+

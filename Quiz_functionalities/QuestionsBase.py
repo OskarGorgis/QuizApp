@@ -1,5 +1,4 @@
-import html
-import random
+import html, random
 from Quiz_functionalities.CooperatingWithDatabase import get_questions
 from GUI_functionalities.FileManagingFunctions import get_question_from_file
 
