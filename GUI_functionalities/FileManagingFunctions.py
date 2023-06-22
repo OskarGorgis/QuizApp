@@ -1,4 +1,5 @@
 import json
+from json.decoder import JSONDecodeError
 import os
 import random
 
@@ -28,13 +29,16 @@ def save_score_in_file(line_to_save):
 
 
 def get_question_from_file():
-    with open(questions_file_path, 'r') as file:
-        try:
-            questions_list = json.load(file)
-            question_number = random.randint(0, len(questions_list)-1)
-            return questions_list[question_number]
-        except EOFError:
-            return -1
+    try:
+        with open(questions_file_path, 'r') as file:
+            try:
+                questions_list = json.load(file)
+                question_number = random.randint(0, len(questions_list)-1)
+                return questions_list[question_number]
+            except JSONDecodeError:
+                return -2
+    except FileExistsError:
+        return -1
 
 
 def save_question_to_file(question, correct_answer, incorrect_answers):
