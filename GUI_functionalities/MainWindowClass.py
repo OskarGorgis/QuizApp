@@ -15,7 +15,7 @@ class QuizMainWindow(QtWidgets.QMainWindow):
         self.adding_question = False
 
         # Inicjalizacja obiektu UI z pliku Pythona
-        self.ui = GeneratedQuizWindow2.Ui_MainWindow()
+        self.ui = GeneratedQuizWindow.Ui_MainWindow()
         self.ui.setupUi(self)
 
         self.ui.clear_screen.clicked.connect(self.set_default)
@@ -110,7 +110,6 @@ class QuizMainWindow(QtWidgets.QMainWindow):
 
     def end_quiz(self):
         points = self.points
-        self.starting_set()
         self.ui.main_question.setText(f"You lost!\nYour score: {points}"
                                       f"\nEnter your name on the right and click Confirm"
                                       f"\n(Only first 10 letters of first line will count)")
@@ -124,13 +123,14 @@ class QuizMainWindow(QtWidgets.QMainWindow):
             self.ui.question_add.setDisabled(True)
             self.ui.question_add.clear()
             self.ui.confirm_add.setDisabled(True)
+            points = self.points
             self.set_default()
             self.ui.clear_screen.setDisabled(False)
             self.ui.exit.setDisabled(True)
             if len(text_tab) != 0:
                 if not text_tab[0].isspace():
                     text = text_tab[0][:10]
-                    text = str(self.points) + " " + text
+                    text = str(points) + " " + text
                     save_score_in_file(text)
                 else:
                     self.ui.main_question.setText("No entry in the first line of text\nThe result was not saved")

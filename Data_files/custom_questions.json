@@ -16,5 +16,14 @@
             "Sona",
             "Sion"
         ]
+    },
+    {
+        "question": "Kto jest najlepszy?",
+        "correct_answer": "Kacper",
+        "incorrect_answers": [
+            "Kacper",
+            "Kacper",
+            "Kacper"
+        ]
     }
 ]
