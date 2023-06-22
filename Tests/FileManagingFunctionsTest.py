@@ -5,7 +5,12 @@ import json
 
 
 def test_read_highest_score():
-    assert read_highest_score() == "1000 Test score"
+    mock_file_content = "100 Ola\n200 Oskar\n300 Boro"
+    expected_result = "300 Boro"
+
+    with patch("builtins.open", mock_open(read_data=mock_file_content)):
+        result = read_highest_score()
+        assert result == expected_result
 
 
 def test_get_question_from_file():
