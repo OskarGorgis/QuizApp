@@ -123,19 +123,18 @@ class QuizMainWindow(QtWidgets.QMainWindow):
             self.ui.question_add.setDisabled(True)
             self.ui.question_add.clear()
             self.ui.confirm_add.setDisabled(True)
-            points = self.points
-            self.set_default()
             self.ui.clear_screen.setDisabled(False)
             self.ui.exit.setDisabled(True)
             if len(text_tab) != 0:
                 if not text_tab[0].isspace():
                     text = text_tab[0][:10]
-                    text = str(points) + " " + text
+                    text = str(self.points) + " " + text
                     save_score_in_file(text)
                 else:
                     self.ui.main_question.setText("No entry in the first line of text\nThe result was not saved")
             else:
                 self.ui.main_question.setText("The specified field has not been filled\nThe result was not saved")
+            self.starting_set()
 
     def next_question(self):
         if not self.check_answer(self.correct_answer_place):
@@ -227,6 +226,7 @@ class QuizMainWindow(QtWidgets.QMainWindow):
                 save_question_to_file(question, correct_answer, incorrect_answers)
 
             self.ui.confirm_add.setDisabled(True)
+            self.starting_set()
 
     def on_checkBox_A_stateChanged(self):
         self.ui.answer_b.setChecked(False)
