@@ -1,6 +1,5 @@
 from unittest.mock import patch, mock_open
 from GUI_functionalities.FileManagingFunctions import read_highest_score, get_question_from_file
-import pytest
 import json
 
 
